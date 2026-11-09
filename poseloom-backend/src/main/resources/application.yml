@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: poseloom-backend
+  profiles:
+    default: dev
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:poseloom}
+    username: ${POSTGRES_USER:poseloom}
+    password: ${POSTGRES_PASSWORD:poseloomdb}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: ${SERVER_PORT:8080}
+
+poseloom:
+  upload:
+    max-total-bytes: 104857600      # 100 MiB
+    part-size: 10485760             # 10 MiB
+    max-parts: 10
+    presign-ttl: PT15M
+    allowed-extensions: [ mp4, mov ]
+    object-key-template: "sessions/{sessionId}/source"
+  storage:
+    s3:
+      bucket: ${MINIO_INIT_BUCKET:videos}
+      region: ${S3_REGION:us-east-1}
+      internal-endpoint: ${S3_INTERNAL_ENDPOINT:http://localhost:9000}
+      public-endpoint: ${S3_PUBLIC_ENDPOINT:http://localhost:9000}
+      access-key: ${MINIO_ROOT_USER:poseloom_admin}
+      secret-key: ${MINIO_ROOT_PASSWORD:poselooms3}
+      max-connections: 50
+      timeouts:
+        api-call: PT30S
+        api-call-attempt: PT10S
+        connect: PT5S
+        socket: PT60S
+        streaming-socket: PT2M
+        connection-acquisition: PT5S
+      retry:
+        max-attempts: 3
+        initial-backoff: PT0.5S
+        max-backoff: PT20S

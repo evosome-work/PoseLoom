@@ -1,0 +1,14 @@
+# For testcontainers
+poseloom:
+  storage:
+    s3:
+      internal-endpoint: http://localhost:1
+      public-endpoint: http://localhost:1
+      access-key: test
+      secret-key: testtest
+      timeouts:
+        api-call: PT30S
+
+logging:
+  level:
+    com.evosome: DEBUG
