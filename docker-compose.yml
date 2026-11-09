@@ -21,7 +21,7 @@ services:
       start_period: 15s
 
   minio:
-    image: pgsty/silo:latest
+    image: pgsty/silo:RELEASE.2026-10-26T00-00-00Z
     container_name: poseloom-minio
     user: "0:0"
     restart: unless-stopped
