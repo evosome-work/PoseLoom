@@ -1,0 +1,9 @@
+poseloom:
+  storage:
+    s3:
+      internal-endpoint: http://localhost:9000
+      public-endpoint: http://localhost:9000
+
+logging:
+  level:
+    com.evosome: DEBUG
