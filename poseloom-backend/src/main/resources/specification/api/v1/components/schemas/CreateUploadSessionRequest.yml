@@ -1,0 +1,37 @@
+type: object
+description: |
+  Заявка на multipart-загрузку.
+  `partSize` и `partCount` вычисляет сервер: `partSize = 10 MiB`,
+  `partCount = ceil(totalBytes / partSize)`, `partCount ≤ 10`.
+required: [originalFilename, totalBytes, checksumSha256]
+additionalProperties: false
+properties:
+  originalFilename:
+    type: string
+    minLength: 1
+    maxLength: 255
+    pattern: \.(mp4|mov)$
+    description: |
+      Исходное имя файла (только для отображения клиенту, ключ объекта от него не зависит).
+      Расширение не `.mp4`/`.mov` → 422 UNSUPPORTED_FORMAT.
+  totalBytes:
+    type: integer
+    format: int64
+    minimum: 1
+    maximum: 104857600
+    description: |
+      Точный размер файла в байтах.
+      `≤ 0` → 422 INVALID_FILE_SIZE,
+      `> 100 MiB` → 422 FILE_TOO_LARGE.
+      Неизменяем после создания сессии.
+  checksumSha256:
+    type: string
+    pattern: ^[0-9a-f]{64}$
+    description: |
+      SHA-256 всего файла, 64 hex-символа (канон — lowercase).
+      Не multipart ETag.
+      Формат нарушен → 422 INVALID_CHECKSUM_FORMAT.
+example:
+  originalFilename: squat.mp4
+  totalBytes: 73400320
+  checksumSha256: 9f2c000000000000000000000000000000000000000000000000000000000064

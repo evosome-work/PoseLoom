@@ -1,0 +1,6 @@
+description: |
+  201 — сессия создана, multipart-upload инициализирован, запись в статусе CREATED.
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/UploadSessionCreated.yml

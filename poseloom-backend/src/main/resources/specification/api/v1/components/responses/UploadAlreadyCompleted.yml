@@ -1,0 +1,7 @@
+description: |
+  200 — повторный complete уже завершённой сессии: возвращается та же Video,
+  дубликат не создаётся.
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/CompleteUploadResponse.yml

@@ -1,0 +1,11 @@
+description: |
+  502 - ошибка S3-хранилища (transient). Сессия не разрушается:
+  при создании - сессия не заводится, при complete - остаётся в CREATED
+  и операцию можно повторить.
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ErrorResponse.yml
+    example:
+      code: STORAGE_ERROR
+      message: Object storage is temporarily unavailable

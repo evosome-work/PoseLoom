@@ -1,0 +1,29 @@
+post:
+  operationId: getPresignedPartUrl
+  tags: [uploading]
+  summary: Выдать presigned UploadPart URL для части
+  description: |
+    История 4 (AC1–AC4), Upload Flow «Presigned URL». Тело запроса отсутствует.
+
+    Проверки сервера: владелец сессии → состояние `CREATED` →
+    `1 ≤ partNumber ≤ partCount`. Подписывается `UploadPart` для
+    `bucket`, `storage_path`, `uploadId`, `partNumber`; TTL URL — 15 минут.
+
+    Клиент не получает credentials хранилища; истёкший URL отклоняется
+    хранилищем, после чего клиент запрашивает новый.
+  parameters:
+    - $ref: ../components/parameters.yml#/SessionId
+    - $ref: ../components/parameters.yml#/PartNumber
+  responses:
+    "200":
+      $ref: ../components/responses/PresignedPartUrl.yml
+    "401":
+      $ref: ../components/responses/Unauthorized.yml
+    "404":
+      $ref: ../components/responses/SessionNotFound.yml
+    "409":
+      $ref: ../components/responses/InvalidSessionState.yml
+    "422":
+      $ref: ../components/responses/PartNumberOutOfRange.yml
+    "502":
+      $ref: ../components/responses/StorageError.yml

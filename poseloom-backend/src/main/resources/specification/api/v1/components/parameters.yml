@@ -1,0 +1,21 @@
+SessionId:
+  name: sessionId
+  in: path
+  required: true
+  description: |
+    UUID сессии загрузки из ответа `201` на создание сессии.
+    Нет сессии или она чужая → 404 SESSION_NOT_FOUND.
+  schema:
+    type: string
+    format: uuid
+PartNumber:
+  name: partNumber
+  in: path
+  required: true
+  description: |
+    Номер части в диапазоне `1..partCount`. Вне диапазона → 422 PART_NUMBER_OUT_OF_RANGE.
+  schema:
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 10

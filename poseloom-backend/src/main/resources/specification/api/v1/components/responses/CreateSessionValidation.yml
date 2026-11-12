@@ -1,0 +1,28 @@
+description: |
+  422 - нарушение валидации заявки на создание сессии.
+  Сессия не создаётся. Один из кодов:
+  FILE_TOO_LARGE,
+  INVALID_FILE_SIZE,
+  UNSUPPORTED_FORMAT,
+  INVALID_CHECKSUM_FORMAT.
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ErrorResponse.yml
+    examples:
+      fileTooLarge:
+        value:
+          code: FILE_TOO_LARGE
+          message: totalBytes 209715200 exceeds the 100 MiB limit
+      invalidFileSize:
+        value:
+          code: INVALID_FILE_SIZE
+          message: totalBytes must be greater than 0
+      unsupportedFormat:
+        value:
+          code: UNSUPPORTED_FORMAT
+          message: "Only .mp4 and .mov files are accepted"
+      invalidChecksumFormat:
+        value:
+          code: INVALID_CHECKSUM_FORMAT
+          message: checksumSha256 must be 64 hex characters

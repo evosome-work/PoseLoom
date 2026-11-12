@@ -1,0 +1,19 @@
+description: |
+  422 - данные не прошли целостную проверку (terminal: сессия → FAILED, объект
+  удалён, multipart абортится). Один из кодов:
+  CHECKSUM_MISMATCH,
+  UNSUPPORTED_CONTAINER;
+  INVALID_REQUEST — невалидные параметры запроса.
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ErrorResponse.yml
+    examples:
+      checksumMismatch:
+        value:
+          code: CHECKSUM_MISMATCH
+          message: SHA-256 of the assembled object does not match checksumSha256
+      unsupportedContainer:
+        value:
+          code: UNSUPPORTED_CONTAINER
+          message: ftyp box not found or major brand not whitelisted

@@ -1,0 +1,31 @@
+description: |
+  409 — состояние или набор частей не позволяют завершить. Один из кодов:
+  SESSION_FAILED (сессия уже FAILED),
+  INVALID_SESSION_STATE (гонка параллельных complete),
+  MISSING_PARTS и PART_SIZE_MISMATCH (retryable: сессия остаётся CREATED — дослать части и повторить),
+  SIZE_MISMATCH (terminal: сессия -> FAILED).
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ErrorResponse.yml
+    examples:
+      sessionFailed:
+        value:
+          code: SESSION_FAILED
+          message: Session has failed and cannot be completed
+      invalidSessionState:
+        value:
+          code: INVALID_SESSION_STATE
+          message: Session state changed concurrently
+      missingParts:
+        value:
+          code: MISSING_PARTS
+          message: "Parts 4, 5 were not uploaded"
+      partSizeMismatch:
+        value:
+          code: PART_SIZE_MISMATCH
+          message: Part 2 size 8388608 does not match partSize 10485760
+      sizeMismatch:
+        value:
+          code: SIZE_MISMATCH
+          message: Object size 62914560 does not match totalBytes 73400320

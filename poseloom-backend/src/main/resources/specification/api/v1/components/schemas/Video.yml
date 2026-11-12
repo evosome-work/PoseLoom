@@ -1,0 +1,46 @@
+type: object
+description: |
+  Сущность `Video`, созданная в транзакции с переводом сессии в `COMPLETED`
+  (AC6 истории 1): объект собран, размеры и SHA-256 сверены, `ftyp` распознан.
+  Медиаданные (`codec`, `durationSec`, `resolution`) появятся в эпике 002 и здесь не объявлены.
+required: [id, ownerId, originalFilename, storagePath, sizeBytes, checksumSha256, format, uploadedAt]
+additionalProperties: false
+properties:
+  id:
+    type: string
+    format: uuid
+  ownerId:
+    type: string
+    format: uuid
+    description: Владелец (в эпике 001 — из заглушки X-User-Id, FK на users нет)
+  originalFilename:
+    type: string
+    description: Исходное имя файла, заявленное при создании сессии
+  storagePath:
+    type: string
+    description: Ключ объекта в хранилище — sessions/{sessionId}/source
+  sizeBytes:
+    type: integer
+    format: int64
+    description: Фактический размер собранного объекта (совпал с totalBytes)
+  checksumSha256:
+    type: string
+    pattern: ^[0-9a-f]{64}$
+    description: SHA-256, пересчитанный сервером после сборки
+  format:
+    type: string
+    enum: [MP4, MOV]
+    description: Контейнер по сигнатуре ftyp; кодек — эпик 002
+  uploadedAt:
+    type: string
+    format: date-time
+    description: Момент успешного завершения загрузки
+example:
+  id: 2d1f8a44-6b3e-4c1a-9f0d-8a2b5e7c1d3f
+  ownerId: 0f8e5d3a-1b2c-4e5f-6a7b-8c9d0e1f2a3b
+  originalFilename: squat.mp4
+  storagePath: sessions/7c9e6679-7425-40de-944b-e07fc1f90ae7/source
+  sizeBytes: 73400320
+  checksumSha256: 9f2c000000000000000000000000000000000000000000000000000000000064
+  format: MP4
+  uploadedAt: "2026-11-05T12:00:00Z"
