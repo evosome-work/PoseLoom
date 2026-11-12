@@ -1,5 +1,5 @@
 description: |
-  200 — presigned UploadPart URL выдан, TTL <N> минут.
+  200 — presigned UploadPart URL выдан, TTL N минут.
 content:
   application/json:
     schema:
