@@ -40,8 +40,6 @@ public class FailureCodeConverter implements AttributeConverter<FailureCode, Str
         try {
             return FailureCode.valueOf(databaseValue.trim());
         } catch (IllegalArgumentException unknownCode) {
-            // Строка вне закрытого списка = обход CHECK (баг кода или ручная правка БД):
-            // падаем, а не подменяем неизвестный отказ безобидным NONE.
             throw new IllegalStateException(
                     "Unknown failure_code in database: '" + databaseValue + "'", unknownCode);
         }
