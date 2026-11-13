@@ -1,10 +1,10 @@
 description: |
-  422 - нарушение валидации заявки на создание сессии.
-  Сессия не создаётся. Один из кодов:
-  FILE_TOO_LARGE,
-  INVALID_FILE_SIZE,
-  UNSUPPORTED_FORMAT,
-  INVALID_CHECKSUM_FORMAT.
+  422 - нарушение валидации заявки на создание сессии. Сессия не создаётся.
+  Один из кодов:
+    - FILE_TOO_LARGE,
+    - INVALID_FILE_SIZE,
+    - UNSUPPORTED_FORMAT,
+    - INVALID_CHECKSUM_FORMAT.
 content:
   application/json:
     schema:

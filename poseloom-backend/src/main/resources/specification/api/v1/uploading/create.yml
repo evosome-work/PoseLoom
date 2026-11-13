@@ -3,15 +3,14 @@ post:
   tags: [uploading]
   summary: Создать сессию загрузки и multipart-upload
   description: |
-    История 3 (AC1–AC4), Upload Flow «Создание сессии».
-
-    Порядок сервера до ответа: валидация заявки → `CreateMultipartUpload` в хранилище →
+    Порядок сервера до ответа: валидация заявки -> `CreateMultipartUpload` в хранилище ->
     `INSERT upload_sessions` в статусе `CREATED` (хранит `upload_id`, `bucket`,
     `storage_path`, `part_size`, `part_count`).
 
-    Вызов хранилища не удался — сессия не создаётся, `502 STORAGE_ERROR`.
+    Вызов хранилища не удался - сессия не создаётся, `502 STORAGE_ERROR`.
     Ключ объекта не зависит от имени файла: `sessions/{sessionId}/source`.
-    `Idempotency-Key` в эпике 001 не используется (открытый вопрос после эпика).
+
+    `Idempotency-Key` в версии v0.1-alpha не используется (открытый вопрос после релиза).
   requestBody:
     required: true
     content:

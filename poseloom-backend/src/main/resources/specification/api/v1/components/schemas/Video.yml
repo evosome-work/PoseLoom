@@ -1,8 +1,7 @@
 type: object
 description: |
-  Сущность `Video`, созданная в транзакции с переводом сессии в `COMPLETED`
-  (AC6 истории 1): объект собран, размеры и SHA-256 сверены, `ftyp` распознан.
-  Медиаданные (`codec`, `durationSec`, `resolution`) появятся в эпике 002 и здесь не объявлены.
+  Сущность `Video`, созданная в транзакции с переводом сессии в `COMPLETED`:
+  объект собран, размеры и SHA-256 сверены, `ftyp` распознан.
 required: [id, ownerId, originalFilename, storagePath, sizeBytes, checksumSha256, format, uploadedAt]
 additionalProperties: false
 properties:

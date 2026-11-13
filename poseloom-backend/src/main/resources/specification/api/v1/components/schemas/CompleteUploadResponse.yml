@@ -1,7 +1,7 @@
 type: object
 description: |
   Обёртка ответа успешного завершения загрузки: сервер уже выполнил все проверки,
-  поэтому наружу отдаётся только созданная сущность Video (Upload Flow «Завершение»).
+  поэтому наружу отдаётся только созданная сущность Video.
 required: [video]
 additionalProperties: false
 properties:

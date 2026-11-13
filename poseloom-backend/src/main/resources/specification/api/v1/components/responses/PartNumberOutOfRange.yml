@@ -1,6 +1,5 @@
 description: |
-  422 — partNumber вне диапазона `1..partCount`, либо запрос невалиден
-  (INVALID_REQUEST).
+  422 — partNumber вне диапазона `1..partCount`, либо запрос невалиден (INVALID_REQUEST).
 content:
   application/json:
     schema:

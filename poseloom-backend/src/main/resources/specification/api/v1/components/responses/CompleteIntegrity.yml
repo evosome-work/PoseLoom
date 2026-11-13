@@ -1,9 +1,9 @@
 description: |
-  422 - данные не прошли целостную проверку (terminal: сессия → FAILED, объект
-  удалён, multipart абортится). Один из кодов:
-  CHECKSUM_MISMATCH,
-  UNSUPPORTED_CONTAINER;
-  INVALID_REQUEST — невалидные параметры запроса.
+  422 - данные не прошли целостную проверку (terminal: сессия → FAILED, объект удалён, multipart абортится).
+  Один из кодов:
+    - CHECKSUM_MISMATCH,
+    - UNSUPPORTED_CONTAINER;
+    - INVALID_REQUEST — невалидные параметры запроса.
 content:
   application/json:
     schema:

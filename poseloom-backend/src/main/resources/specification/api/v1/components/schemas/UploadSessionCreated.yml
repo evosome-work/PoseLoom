@@ -2,8 +2,8 @@ type: object
 description: |
   Сессия создана: `CreateMultipartUpload` в хранилище выполнен до ответа,
   `upload_id`/`bucket`/`storage_path` сохранены, запись в статусе `CREATED`.
-  Ключ объекта — `sessions/{sessionId}/source`.
-  Ошибка вызова хранилища → сессия не создаётся, `502 STORAGE_ERROR`.
+  Ключ объекта - `sessions/{sessionId}/source`.
+  Ошибка вызова хранилища -> сессия не создаётся, `502 STORAGE_ERROR`.
 required: [sessionId, partSize, partCount]
 additionalProperties: false
 properties:
