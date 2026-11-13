@@ -1,4 +1,4 @@
-package com.evosome.poseloombackend.uploading.feature.getpart.models;
+package com.evosome.poseloombackend.uploading.features.getpart.models;
 
 import java.time.Instant;
 

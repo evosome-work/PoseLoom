@@ -1,4 +1,4 @@
-package com.evosome.poseloombackend.uploading.feature.complete.services;
+package com.evosome.poseloombackend.uploading.features.complete.services;
 
 import java.io.IOException;
 import java.io.InputStream;

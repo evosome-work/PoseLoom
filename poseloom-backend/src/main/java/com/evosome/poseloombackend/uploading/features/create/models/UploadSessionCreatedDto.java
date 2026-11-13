@@ -1,4 +1,4 @@
-package com.evosome.poseloombackend.uploading.feature.create.models;
+package com.evosome.poseloombackend.uploading.features.create.models;
 
 import java.util.UUID;
 

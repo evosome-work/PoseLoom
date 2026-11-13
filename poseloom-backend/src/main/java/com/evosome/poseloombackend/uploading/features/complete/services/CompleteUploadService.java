@@ -1,8 +1,8 @@
-package com.evosome.poseloombackend.uploading.feature.complete.services;
+package com.evosome.poseloombackend.uploading.features.complete.services;
 
 import com.evosome.poseloombackend.uploading.exception.ApiErrorCode;
 import com.evosome.poseloombackend.uploading.exception.ApiException;
-import com.evosome.poseloombackend.uploading.feature.complete.models.VideoDto;
+import com.evosome.poseloombackend.uploading.features.complete.models.VideoDto;
 import com.evosome.poseloombackend.uploading.model.FailureCode;
 import com.evosome.poseloombackend.uploading.model.SessionStatus;
 import com.evosome.poseloombackend.uploading.model.UploadSession;
@@ -116,7 +116,7 @@ public class CompleteUploadService {
                 session.getBucket(), session.getStoragePath())) {
             actualSha256 = Sha256Verifier.hexDigest(stream);
         } catch (IOException readFailure) {
-            throw new com.evosome.poseloombackend.uploading.storage.StorageException(
+            throw new com.evosome.poseloombackend.uploading.exception.StorageException(
                     "Failed to stream assembled object", readFailure);
         }
         if (!actualSha256.equals(session.getChecksumSha256())) {

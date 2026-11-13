@@ -1,4 +1,4 @@
-package com.evosome.poseloombackend.uploading.storage;
+package com.evosome.poseloombackend.uploading.storage.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.evosome.poseloombackend.client.S3UploadingClient;
+import com.evosome.poseloombackend.uploading.exception.StorageException;
+import com.evosome.poseloombackend.uploading.storage.ObjectStorageGateway;
+import com.evosome.poseloombackend.uploading.storage.ObjectStorageGateway.PresignedPartUrl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

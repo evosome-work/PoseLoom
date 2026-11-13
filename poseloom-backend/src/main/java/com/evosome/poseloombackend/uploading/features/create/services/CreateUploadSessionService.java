@@ -1,11 +1,11 @@
-package com.evosome.poseloombackend.uploading.feature.create.services;
+package com.evosome.poseloombackend.uploading.features.create.services;
 
 import com.evosome.poseloombackend.config.S3Properties;
 import com.evosome.poseloombackend.config.UploadProperties;
 import com.evosome.poseloombackend.uploading.exception.ApiErrorCode;
 import com.evosome.poseloombackend.uploading.exception.ApiException;
-import com.evosome.poseloombackend.uploading.feature.create.models.CreateUploadSessionRequestDto;
-import com.evosome.poseloombackend.uploading.feature.create.models.UploadSessionCreatedDto;
+import com.evosome.poseloombackend.uploading.features.create.models.CreateUploadSessionRequestDto;
+import com.evosome.poseloombackend.uploading.features.create.models.UploadSessionCreatedDto;
 import com.evosome.poseloombackend.uploading.model.FailureCode;
 import com.evosome.poseloombackend.uploading.model.SessionStatus;
 import com.evosome.poseloombackend.uploading.model.UploadSession;

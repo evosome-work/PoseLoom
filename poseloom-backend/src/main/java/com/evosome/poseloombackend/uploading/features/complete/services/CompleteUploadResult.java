@@ -1,6 +1,6 @@
-package com.evosome.poseloombackend.uploading.feature.complete.services;
+package com.evosome.poseloombackend.uploading.features.complete.services;
 
-import com.evosome.poseloombackend.uploading.feature.complete.models.VideoDto;
+import com.evosome.poseloombackend.uploading.features.complete.models.VideoDto;
 
 /**
  * Результат complete для контроллера: та же {@link VideoDto} при повторном

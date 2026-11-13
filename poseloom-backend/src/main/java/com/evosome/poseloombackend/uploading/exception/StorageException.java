@@ -1,4 +1,4 @@
-package com.evosome.poseloombackend.uploading.storage;
+package com.evosome.poseloombackend.uploading.exception;
 
 /**
  * Transient-ошибка объектного хранилища (спека StorageError.yml): операция

@@ -1,4 +1,4 @@
-package com.evosome.poseloombackend.uploading.feature.complete.models;
+package com.evosome.poseloombackend.uploading.features.complete.models;
 
 import com.evosome.poseloombackend.uploading.model.Video;
 

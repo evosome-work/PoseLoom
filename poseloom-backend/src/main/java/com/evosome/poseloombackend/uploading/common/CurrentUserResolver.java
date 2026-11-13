@@ -1,8 +1,9 @@
 package com.evosome.poseloombackend.uploading.common;
 
+import org.springframework.stereotype.Component;
+
 import com.evosome.poseloombackend.uploading.exception.ApiErrorCode;
 import com.evosome.poseloombackend.uploading.exception.ApiException;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
