@@ -1,0 +1,28 @@
+type: object
+description: |
+  Presigned `UploadPart` URL.
+  Credentials хранилища клиенту не выдаются.
+  Истёкший URL отклоняется хранилищем — клиент запрашивает новый.
+  Повторный `PUT` той же части идемпотентен и не создаёт дубликат.
+required: [url, partNumber, expiresAt]
+additionalProperties: false
+properties:
+  url:
+    type: string
+    format: uri
+    description: |
+      Presigned URL для `PUT` части напрямую в хранилище.
+  partNumber:
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 10
+    description: Номер части, для которой выдан URL
+  expiresAt:
+    type: string
+    format: date-time
+    description: Момент истечения URL
+example:
+  url: https://s3.local/poseloom/videos/sessions/7c9e6679-7425-40de-944b-e07fc1f90ae7/source?partNumber=3&X-Amz-Signature=...
+  partNumber: 3
+  expiresAt: "2026-11-05T12:15:00Z"

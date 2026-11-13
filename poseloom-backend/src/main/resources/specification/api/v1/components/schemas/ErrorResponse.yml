@@ -1,0 +1,33 @@
+type: object
+description: |
+  Единый формат ошибки: без стектрейсов и внутренних путей хранилища.
+  Клиент ориентируется на машиночитаемый `code`, `message` — для логов и отладки.
+required: [code, message]
+additionalProperties: false
+properties:
+  code:
+    type: string
+    description: Машиночитаемый код ошибки
+    enum:
+      - UNAUTHORIZED
+      - INVALID_REQUEST
+      - FILE_TOO_LARGE
+      - INVALID_FILE_SIZE
+      - UNSUPPORTED_FORMAT
+      - INVALID_CHECKSUM_FORMAT
+      - SESSION_NOT_FOUND
+      - PART_NUMBER_OUT_OF_RANGE
+      - INVALID_SESSION_STATE
+      - SESSION_FAILED
+      - MISSING_PARTS
+      - PART_SIZE_MISMATCH
+      - SIZE_MISMATCH
+      - CHECKSUM_MISMATCH
+      - UNSUPPORTED_CONTAINER
+      - STORAGE_ERROR
+  message:
+    type: string
+    description: Человекочитаемое описание (не содержит путей хранилища и стектрейсов)
+example:
+  code: FILE_TOO_LARGE
+  message: totalBytes 209715200 exceeds the 100 MiB limit

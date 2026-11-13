@@ -1,0 +1,9 @@
+description: |
+  401 — `X-User-Id` отсутствует или невалиден (user stub).
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ErrorResponse.yml
+    example:
+      code: UNAUTHORIZED
+      message: Missing or malformed X-User-Id header

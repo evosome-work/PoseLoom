@@ -1,0 +1,9 @@
+description: |
+  422 — partNumber вне диапазона `1..partCount`, либо запрос невалиден (INVALID_REQUEST).
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ErrorResponse.yml
+    example:
+      code: PART_NUMBER_OUT_OF_RANGE
+      message: partNumber 8 exceeds partCount 7

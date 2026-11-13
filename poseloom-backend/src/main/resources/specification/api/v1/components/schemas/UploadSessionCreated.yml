@@ -1,0 +1,28 @@
+type: object
+description: |
+  Сессия создана: `CreateMultipartUpload` в хранилище выполнен до ответа,
+  `upload_id`/`bucket`/`storage_path` сохранены, запись в статусе `CREATED`.
+  Ключ объекта - `sessions/{sessionId}/source`.
+  Ошибка вызова хранилища -> сессия не создаётся, `502 STORAGE_ERROR`.
+required: [sessionId, partSize, partCount]
+additionalProperties: false
+properties:
+  sessionId:
+    type: string
+    format: uuid
+    description: Идентификатор сессии загрузки
+  partSize:
+    type: integer
+    format: int64
+    const: 10485760
+    description: Фиксированный размер части — 10 MiB
+  partCount:
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 10
+    description: ceil(totalBytes / partSize)
+example:
+  sessionId: 7c9e6679-7425-40de-944b-e07fc1f90ae7
+  partSize: 10485760
+  partCount: 7

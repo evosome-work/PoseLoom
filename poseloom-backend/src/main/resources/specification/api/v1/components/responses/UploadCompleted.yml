@@ -1,0 +1,7 @@
+description: |
+  201 — объект собран и проверен, Video создана в одной транзакции с переходом
+  сессии в COMPLETED.
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/CompleteUploadResponse.yml
