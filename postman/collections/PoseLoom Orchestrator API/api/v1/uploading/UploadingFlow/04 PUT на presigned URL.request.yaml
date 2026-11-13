@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{awsPresignedUrl}}"
+method: PUT
+body:
+  type: file
+  content:
+    src: /home/evosome/Documents/DiplomaResearch/PoseLoom/postman/testdata/videos/man_dancing.mp4
+order: 11000

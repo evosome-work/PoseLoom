@@ -1,0 +1,28 @@
+post:
+  operationId: createUploadSession
+  tags: [uploading]
+  summary: Создать сессию загрузки и multipart-upload
+  description: |
+    Порядок сервера до ответа: валидация заявки -> `CreateMultipartUpload` в хранилище ->
+    `INSERT upload_sessions` в статусе `CREATED` (хранит `upload_id`, `bucket`,
+    `storage_path`, `part_size`, `part_count`).
+
+    Вызов хранилища не удался - сессия не создаётся, `502 STORAGE_ERROR`.
+    Ключ объекта не зависит от имени файла: `sessions/{sessionId}/source`.
+
+    `Idempotency-Key` в версии v0.1-alpha не используется (открытый вопрос после релиза).
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/CreateUploadSessionRequest.yml
+  responses:
+    "201":
+      $ref: ../components/responses/UploadSessionCreated.yml
+    "401":
+      $ref: ../components/responses/Unauthorized.yml
+    "422":
+      $ref: ../components/responses/CreateSessionValidation.yml
+    "502":
+      $ref: ../components/responses/StorageError.yml

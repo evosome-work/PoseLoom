@@ -1,0 +1,15 @@
+description: |
+  409 - сессия в терминальном статусе COMPLETED или FAILED, presign части невозможен.
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/ErrorResponse.yml
+    examples:
+      sessionCompleted:
+        value:
+          code: INVALID_SESSION_STATE
+          message: Unable to resolve presigned URL to load file, because uploading session is already completed
+      sessionFailed:
+        value:
+          code: INVALID_SESSION_STATE
+          message: Unable to resolve presigned URL to load file, because uploading session is failed

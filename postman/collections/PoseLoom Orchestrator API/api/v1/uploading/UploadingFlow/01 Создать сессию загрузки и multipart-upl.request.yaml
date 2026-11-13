@@ -1,0 +1,77 @@
+$kind: http-request
+name: 01 Создать сессию загрузки и multipart-upload
+description: |
+  Порядок сервера до ответа: валидация заявки -> `CreateMultipartUpload` в хранилище ->
+  `INSERT upload_sessions` в статусе `CREATED` (хранит `upload_id`, `bucket`,
+  `storage_path`, `part_size`, `part_count`).
+
+  Вызов хранилища не удался - сессия не создаётся, `502 STORAGE_ERROR`.
+  Ключ объекта не зависит от имени файла: `sessions/{sessionId}/source`.
+
+  `Idempotency-Key` в версии v0.1-alpha не используется (открытый вопрос после релиза).
+url: "{{baseUrl}}/api/v1/upload-sessions"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "originalFilename": "man_dancing.mp4",
+      "totalBytes": 713572,
+      "checksumSha256": "11574ac1faa56e0afdfe9bfbb35a26b9f2ea50103f97f93349e6f5375647f0b7"
+    }
+  $type: |-
+    {
+      "description": "Заявка на multipart-загрузку.\n`partSize` и `partCount` вычисляет сервер: `partSize = 10 MiB`,\n`partCount = ceil(totalBytes / partSize)`, `partCount <= 10`.\n",
+      "type": "object",
+      "example": {
+        "originalFilename": "squat.mp4",
+        "totalBytes": 73400320,
+        "checksumSha256": "9f2c000000000000000000000000000000000000000000000000000000000064"
+      },
+      "properties": {
+        "originalFilename": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "\\.(mp4|mov)$",
+          "description": "Исходное имя файла (только для отображения клиенту, ключ объекта от него не зависит).\nРасширение не `.mp4`/`.mov` -> 422 UNSUPPORTED_FORMAT.\n"
+        },
+        "totalBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 104857600,
+          "description": "Точный размер файла в байтах.\n`<= 0` -> 422 INVALID_FILE_SIZE,\n`> 100 MiB` -> 422 FILE_TOO_LARGE.\nНеизменяем после создания сессии.\n",
+          "format": "int64"
+        },
+        "checksumSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 всего файла, 64 hex-символа (канон - lowercase).\nНе multipart ETag.\nФормат нарушен → 422 INVALID_CHECKSUM_FORMAT.\n"
+        }
+      },
+      "required": [
+        "originalFilename",
+        "totalBytes",
+        "checksumSha256"
+      ],
+      "additionalProperties": false
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      
+      const responseJson = pm.response.json();
+      const createdSessionUuid = responseJson.sessionId; 
+
+      pm.collectionVariables.set('createdSessionUuid', createdSessionUuid);
+
+      pm.test('UUID is present', () => {
+          pm.expect(createdSessionUuid).to.be.a('string').and.not.empty;
+      });
+    language: text/javascript
+settings: {}
+examples: .resources/01 Создать сессию загрузки и multipart-upl.resources/examples
+order: 8000

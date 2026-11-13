@@ -1,0 +1,15 @@
+$kind: collection
+description: |
+  REST-контракт оркестратора PoseLoom
+variables:
+  baseUrl: http://localhost:8080
+  createdSessionUuid: ""
+  awsPresignedUrl: ""
+auth:
+  - id: 861aeddf-7fe3-4334-8d5a-9167ec5780e7
+    type: apikey
+    name: apikey auth
+    credentials:
+      key: X-User-Id
+      value: "{{vault:apiKey}}"
+      in: header

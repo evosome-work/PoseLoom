@@ -1,0 +1,4 @@
+name: 'Poseloom Backend [DEV]'
+values:
+  - key: baseUrl
+    value: 'localhost:8080'

@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info:
+  title: PoseLoom Orchestrator API
+  version: 0.1-alpha
+  description: |
+    REST-контракт оркестратора PoseLoom
+servers:
+  - url: "http://localhost:8080"
+    description: "Локальная разработка (docker-compose: PostgreSQL + S3-хранилище)"
+tags:
+  - name: uploading
+    description: Загрузка видео (bounded context `uploading`, пакет com.evosome.poseloom.uploading)
+security:
+  - UserHeader: []
+paths:
+  /api/v1/upload-sessions:
+    $ref: ./api/v1/uploading/create.yml
+  /api/v1/upload-sessions/{sessionId}/parts/{partNumber}/url:
+    $ref: ./api/v1/uploading/getpart.yml
+  /api/v1/upload-sessions/{sessionId}/complete:
+    $ref: ./api/v1/uploading/complete.yml
+components:
+  securitySchemes:
+    UserHeader:
+      type: apiKey
+      in: header
+      name: X-User-Id
+      description: |
+        Заглушка аутентификации: UUID текущего пользователя.
+        Отсутствует или битый → 401 UNAUTHORIZED.
+        Все операции проверяют владельца сессии; чужая сессия → 404 SESSION_NOT_FOUND
+        без раскрытия её существования.

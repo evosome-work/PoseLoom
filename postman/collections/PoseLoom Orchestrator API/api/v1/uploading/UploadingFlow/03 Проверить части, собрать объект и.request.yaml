@@ -1,0 +1,53 @@
+$kind: http-request
+name: 03 Проверить части, собрать объект и создать Video
+description: |
+  Тело запроса пустое: список частей и ETag сервер берёт из `ListParts`,
+  поэтому клиент не может прислать неверный набор.
+
+  Порядок: `ListParts` (все страницы, `isTruncated`/`nextPartNumberMarker`) →
+  непрерывность `1..partCount` → размер каждой части кроме последней `== partSize` →
+  сумма размеров `== totalBytes` → `CompleteMultipartUpload` с ETag из `ListParts` →
+  `HeadObject.ContentLength == totalBytes` → первые 12 байт: `ftyp` + brand из
+  whitelist (mp41, mp42, isom, iso5, avc1, dash, "qt  ", "M4V ") → потоковый
+  SHA-256 объекта == `checksumSha256` → одна транзакция: `INSERT videos` +
+  `UPDATE upload_sessions SET status = COMPLETED`.
+
+  Retryable-ошибки (MISSING_PARTS, PART_SIZE_MISMATCH): сессия остаётся CREATED —
+  клиент может дослать части и повторить complete.
+  Terminal-ошибки (SIZE_MISMATCH, CHECKSUM_MISMATCH, UNSUPPORTED_CONTAINER):
+  сессия → FAILED с сохранением failure_code, объект удаляется,
+  незавершённая multipart-загрузка абортится, Video не создаётся.
+  Transient STORAGE_ERROR → 502 без разрушения сессии.
+
+  Идемпотентность: повторный complete для COMPLETED →
+  200 с той же Video. Параллельные complete: один 201, второй 200 либо 409;
+  от дубля защищает unique videos.upload_session_id.
+url: "{{baseUrl}}/api/v1/upload-sessions/:sessionId/complete"
+method: POST
+headers:
+  Accept: application/json
+pathVariables:
+  - key: sessionId
+    value: "{{createdSessionUuid}}"
+    description: |
+      UUID сессии загрузки из ответа `201` на создание сессии.
+      Нет сессии или она чужая -> 404 SESSION_NOT_FOUND.
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+settings: {}
+examples: .resources/03 Проверить части, собрать объект и.resources/examples
+order: 9000
