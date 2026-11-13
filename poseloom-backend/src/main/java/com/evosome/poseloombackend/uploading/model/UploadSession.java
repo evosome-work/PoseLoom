@@ -5,8 +5,6 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -32,8 +30,14 @@ import java.util.UUID;
 @ToString(onlyExplicitlyIncluded = true)
 public class UploadSession {
 
+    /**
+     * Идентификатор сессии присваивается оркестратором до вставки: он входит в
+     * ключ объекта {@code sessions/{sessionId}/source}, который фиксируется в
+     * {@code CreateMultipartUpload} до {@code INSERT} (спека create.yml).
+     * Hibernate-генерация ({@code @GeneratedValue}) перезаписала бы его, поэтому
+     * id назначаемый; запасной вариант в БД — {@code gen_random_uuid()}.
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     @EqualsAndHashCode.Include
     @ToString.Include
@@ -103,4 +107,44 @@ public class UploadSession {
     /** Момент завершения загрузки; {@code null} до {@link SessionStatus#COMPLETED}. */
     @Column(name = "completed_at")
     private Instant completedAt;
+
+    /**
+     * Единственный легальный переход {@code CREATED -> COMPLETED} (Tasks T3.7):
+     * ad-hoc {@code setStatus} вне доменных методов запрещён (ER Deviations).
+     *
+     * @param completedAt момент завершения, проставляется в {@code completed_at}
+     * @throws IllegalStateException если сессия уже в терминальном статусе
+     */
+    public void complete(Instant completedAt) {
+        if (status != SessionStatus.CREATED) {
+            throw new IllegalStateException("Cannot complete session in status " + status);
+        }
+        this.status = SessionStatus.COMPLETED;
+        this.failureCode = FailureCode.NONE;
+        this.completedAt = completedAt;
+        this.updatedAt = completedAt;
+    }
+
+    /**
+     * Единственный легальный переход {@code CREATED -> FAILED} (Tasks T3.7) с
+     * сохранением причины отказа; соблюдает инвариант БД
+     * {@code failure_code IS NOT NULL <=> status = 'FAILED'}.
+     *
+     * @param code      терминальный код отказа, не {@link FailureCode#NONE}
+     * @param failedAt  момент перехода
+     * @throws IllegalStateException если сессия уже в терминальном статусе
+     * @throws IllegalArgumentException при {@code null} или {@link FailureCode#NONE}
+     */
+    public void fail(FailureCode code, Instant failedAt) {
+        if (code == null || code == FailureCode.NONE) {
+            throw new IllegalArgumentException("Terminal failure requires a concrete FailureCode");
+        }
+        if (status != SessionStatus.CREATED) {
+            throw new IllegalStateException("Cannot fail session in status " + status);
+        }
+        this.status = SessionStatus.FAILED;
+        this.failureCode = code;
+        this.completedAt = null;
+        this.updatedAt = failedAt;
+    }
 }
